@@ -1,36 +1,159 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Judgement Multiplayer Card Game
 
-## Getting Started
+A real-time multiplayer trick-taking card game built with modern web technologies. Players can create rooms, join with friends, predict number of hands they will win, play cards strategically, and compete across multiple rounds with synchronized gameplay.
 
-First, run the development server:
+---
+
+## Features
+
+### Multiplayer Gameplay
+
+* Real-time multiplayer using Socket.IO
+* Room creation and joining system
+* Host-controlled game start and restart
+* Live synchronized gameplay across all connected players
+
+### Game Mechanics
+
+* Rotating prediction order every round
+* Rotating trump suit system
+* Follow-suit enforcement
+* Trump priority logic
+* Trick winner calculation
+* Multi-round gameplay
+* Dynamic deck generation for large games
+* Multiple deck support when required
+* Score calculation system
+* Restartable matches
+
+### Fair Gameplay Rules
+
+* Server-authoritative game state
+* Turn validation
+* Card ownership validation
+* Secure prediction validation
+* Follow-suit validation on server
+* Anti-cheat gameplay synchronization
+
+### UI Features
+
+* Responsive card table layout
+* Hidden opponent cards
+* Animated card interactions using Framer Motion
+* Shared predictions and score tracking
+* Turn-based interaction system
+
+---
+
+# Tech Stack
+
+## Frontend
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+* Framer Motion
+* Zustand
+
+## Backend
+
+* Node.js
+* Express
+* Socket.IO
+
+---
+
+# Gameplay Rules
+
+* Players predict how many hands they will win each round.
+* Prediction order rotates every round for fairness.
+* Trump suit rotates between:
+
+  * Spades
+  * Diamonds
+  * Clubs
+  * Hearts
+* Players must follow suit if possible.
+* Trump cards beat all non-trump cards.
+* If no trump is played, highest lead suit card wins.
+* Multiple decks are automatically added when required based on:
+
+```txt
+number of rounds × players > 52
+```
+
+* Duplicate cards are supported in multi-deck games.
+* If equal cards are played, the later played card wins.
+
+---
+
+# Project Structure
+
+```txt
+judgement/
+│
+├── app/
+├── components/
+├── server/
+├── socket/
+├── store/
+├── types/
+├── utils/
+├── public/
+│
+├── server.js
+├── package.json
+├── tailwind.config.ts
+├── tsconfig.json
+└── README.md
+```
+
+---
+
+# Installation
+
+## Clone Repository
+
+```bash
+git clone YOUR_REPOSITORY_URL
+```
+
+## Install Dependencies
+
+```bash
+npm install
+```
+
+## Run Frontend
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Run Socket Server
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run socket
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# Learning Outcomes
 
-To learn more about Next.js, take a look at the following resources:
+This project helped strengthen concepts including:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Real-time multiplayer architecture
+* WebSocket communication
+* Server-authoritative game logic
+* State synchronization
+* Game engine logic
+* Scalable room management
+* Frontend/backend integration
+* Advanced React state management
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+# Author
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built by Jash Deshani.
