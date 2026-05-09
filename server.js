@@ -174,55 +174,58 @@ io.to(roomCode).emit(
     roomCode,
     maxRounds,
   }) => {
+
     if (!rooms[roomCode]) {
       return;
     }
 
-    if (
+    const totalCardsNeeded =
+      maxRounds *
       rooms[roomCode]
-        .hostId !==
-      socket.id
-    ) {
-      return;
-    }
+        .players.length;
+
+    const deckCount =
+      Math.ceil(
+        totalCardsNeeded / 52
+      );
 
     const deck =
-      createDeck();
+      createDeck(deckCount);
 
     const players =
-      rooms[
-        roomCode
-      ].players.map(
-        (
-          player,
-          index
-        ) => ({
-          ...player,
+      rooms[roomCode]
+        .players.map(
+          (
+            player,
+            index
+          ) => ({
+            ...player,
 
-          hand: deck.slice(
-            index,
-            index + 1
-          ),
+            hand: deck.slice(
+              index,
+              index + 1
+            ),
 
-          tricksWon: 0,
+            tricksWon: 0,
 
-          score: 0,
+            score: 0,
 
-          bid:
-            undefined,
-        })
-      );
+            bid: undefined,
+          })
+        );
 
     rooms[roomCode]
       .gameState = {
+
       players,
 
       bids: {},
 
-      currentBidderIndex:
-  rooms[roomCode]
-    .gameState
-    ?.startingBidderIndex || 0,
+      bidsPlaced: 0,
+
+      currentBidderIndex: 0,
+
+      startingBidderIndex: 0,
 
       phase: "bidding",
 
@@ -235,9 +238,11 @@ io.to(roomCode).emit(
       currentRound: 1,
 
       trumpSuit:
-        "spades",
+        getTrumpSuit(1),
 
       winner: null,
+
+      maxRounds,
     };
 
     io.to(roomCode).emit(
