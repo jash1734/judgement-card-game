@@ -53,30 +53,20 @@ export default function GameBoard({
     currentBidderIndex
   ]?.id === myId;
 
-  console.log(
-  "PLAYERS:",
-  players
-);
-
-console.log(
-  "MY ID:",
-  myId
-);
-
   return (
     <div>
       <div className="flex justify-center gap-6 mb-8">
         <div className="bg-green-800 px-6 py-3 rounded-xl text-white">
-          Round: {currentRound}
+          Round : {currentRound}
         </div>
 
         <div className="bg-red-500 px-6 py-3 rounded-xl text-white">
-          Trump: {trumpSuit.toUpperCase()}
+          Trump : {trumpSuit.toUpperCase()}
         </div>
 
-        <div className="bg-blue-500 px-6 py-3 rounded-xl text-white">
+        {/* <div className="bg-blue-500 px-6 py-3 rounded-xl text-white">
           Phase: {phase}
-        </div>
+        </div> */}
       </div>
 
       {phase === "gameOver" && (
@@ -106,7 +96,7 @@ console.log(
           currentBidderIndex
         ]?.name
       }{" "}
-      is bidding
+      is predicting
     </h2>
 
     {isMyBidTurn && (

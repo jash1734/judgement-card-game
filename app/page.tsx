@@ -30,7 +30,7 @@ export default function Home() {
           font-bold
         "
       >
-        Kachuful Multiplayer
+        Judgement Multiplayer
       </h1>
       <input
   type="text"

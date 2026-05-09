@@ -45,13 +45,13 @@ export default function PlayerArea({
           {playerName}
         </h2>
         <p className="text-white">
-          Tricks Won: {tricksWon}
+          Tricks Won : {tricksWon}
         </p>
         <p className="text-white">
-          Bid: {bid ?? "-"}
+          Prediction : {bid ?? "-"}
         </p>
         <p className="text-white">
-          Score: {score}
+          Score : {score}
         </p>
         {isCurrentPlayer && (
           <span className="text-yellow-300 font-bold">

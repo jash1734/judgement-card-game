@@ -311,7 +311,7 @@ useGameStore
         "
       >
         <h2 className="text-2xl mb-2">
-          Shared Bids
+          All Predictions
         </h2>
 
         <div className="space-y-2">
