@@ -250,7 +250,7 @@ useGameStore
       </h1>
 
       <PlayerList players={players} />
-      {isHost && (
+      {isHost && (!gameStarted || phase === "gameOver") &&(
   <div className="mb-4">
     <input
       type="text"
@@ -301,7 +301,35 @@ useGameStore
       </button>
       </>
       )}
-  {gameStarted && (
+
+      {phase === "gameOver" &&
+  isHost && (
+    <button
+      onClick={() =>
+        socket.emit(
+  "restart-game",
+  {
+    roomCode,
+    maxRounds,
+  }
+)
+      }
+      className="
+        bg-yellow-500
+        hover:bg-yellow-600
+        text-black
+        px-6
+        py-3
+        rounded-xl
+        font-bold
+        mb-6
+      "
+    >
+      Restart Game
+    </button>
+)}
+
+  {gameStarted && phase !== "gameOver" &&(
       <div
         className="
           bg-black/30
@@ -344,33 +372,7 @@ useGameStore
 </div>
       </div>
       )}
-      {phase === "gameOver" &&
-  isHost && (
-    <button
-      onClick={() =>
-        socket.emit(
-  "restart-game",
-  {
-    roomCode,
-    maxRounds,
-  }
-)
-      }
-      className="
-        bg-yellow-500
-        hover:bg-yellow-600
-        text-black
-        px-6
-        py-3
-        rounded-xl
-        font-bold
-        mb-6
-      "
-    >
-      Restart Game
-    </button>
-)}
-
+      
       {gameStarted ? (
         <GameBoard
           bids={bids}
@@ -387,8 +389,8 @@ useGameStore
             text-2xl
           "
         >
-          Waiting for host to
-          start game...
+          {isHost ? "Players are waiting for you to start the game" : "Waiting for host to start the game"}
+          
         </div>
       )}
 
