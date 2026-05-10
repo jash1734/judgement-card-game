@@ -43,10 +43,15 @@ export default function JoinRoom({
           )
         }
         className="
-          px-4
-          py-3
-          rounded-xl
-          text-black
+          px-5
+            py-4
+            rounded-2xl
+            bg-white/90
+            text-black
+            text-lg
+            outline-none
+            focus:ring-4
+            focus:ring-yellow-400
         "
       />
 

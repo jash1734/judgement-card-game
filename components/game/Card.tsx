@@ -91,6 +91,7 @@ transition={{
           top-2
           left-2
           font-bold
+          font-sans
           ${textColor}
         `}
       >
@@ -106,6 +107,7 @@ transition={{
           items-center
           justify-center
           text-3xl
+          font-sans
           ${textColor}
         `}
       >
@@ -119,6 +121,7 @@ transition={{
           bottom-2
           right-2
           font-bold
+          font-sans
           ${textColor}
         `}
       >

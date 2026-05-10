@@ -246,7 +246,7 @@ useGameStore
       "
     >
       <h1 className="text-5xl font-bold mb-8">
-        Room: {roomCode}
+        RoomCode : <span className="font-sans">{roomCode}</span>
       </h1>
 
       <PlayerList players={players} />
