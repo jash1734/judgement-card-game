@@ -238,13 +238,43 @@ useGameStore
 
   return (
     <main
-      className="
-        min-h-screen
-        bg-green-900
-        text-white
-        p-8
-      "
-    >
+  className="
+    min-h-screen
+    relative
+    overflow-hidden
+    text-white
+  "
+>
+  <div
+    className="
+      fixed
+      inset-0
+      bg-[url('/images/background.png')]
+      bg-cover
+      bg-center
+      bg-no-repeat
+      -z-20
+    "
+  />
+  {/* Dark Overlay */}
+  <div
+    className="
+      absolute
+      inset-0
+      bg-black/60
+      backdrop-blur-[2px]
+    "
+  />
+
+  {/* Content */}
+  <div
+    className="
+      relative
+      z-10
+      min-h-screen
+      p-8
+    "
+  >
       <h1 className="text-5xl font-bold mb-8">
         RoomCode : <span className="font-sans">{roomCode}</span>
       </h1>
@@ -393,7 +423,7 @@ useGameStore
           
         </div>
       )}
-
+    </div>
     </main>
   );
 }
