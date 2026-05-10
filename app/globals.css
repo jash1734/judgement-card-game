@@ -1,1 +1,16 @@
 @import "tailwindcss";
+@font-face {
+  font-family: "Clash";
+
+  src: url("/fonts/Clash.otf")
+    format("opentype");
+
+  font-weight: normal;
+
+  font-style: normal;
+}
+body {
+  font-family:
+    "Clash",
+    sans-serif;
+}
