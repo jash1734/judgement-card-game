@@ -87,7 +87,7 @@ export default function Home() {
       className="
         text-6xl
         md:text-7xl
-        text-white
+        text-yellow-400
         font-bold
         mb-14
         drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]
@@ -115,7 +115,7 @@ export default function Home() {
       "
     >
       {/* Name Input */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-4">
         <label
           className="
             text-white
@@ -205,6 +205,7 @@ export default function Home() {
         p-8
         text-white
         shadow-2xl
+        custom-scrollbar
       "
     >
       {/* Close Button */}
@@ -272,7 +273,7 @@ export default function Home() {
             predict how many
             tricks they will
             win each round.
-            Smart bidding and
+            Smart prediction and
             strategic card play
             decide the winner.
           </p>
