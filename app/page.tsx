@@ -337,9 +337,9 @@ export default function Home() {
             </li>
 
             <li>
-              Correct prediction give
+              Correct prediction gives
               points while wrong
-              bids give zero.
+              prediction gives zero.
             </li>
 
             <li>
