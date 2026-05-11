@@ -3,12 +3,16 @@
 type Props = {
   players: {
     id: string;
-    name: string
+    name: string;
+    score?: number;
   }[];
+
+  showScore?: boolean;
 };
 
 export default function PlayerList({
   players,
+  showScore,
 }: Props) {
   return (
     <div
@@ -30,9 +34,19 @@ export default function PlayerList({
               bg-blue-700
               p-3
               rounded-xl
+              flex
+              justify-between
             "
           >
-            {player.name}
+            <div>
+              {player.name}
+            </div>
+
+            {showScore && (
+              <div>
+                Score : {player.score || 0}
+              </div>
+            )}
           </div>
         ))}
       </div>

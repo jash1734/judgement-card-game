@@ -30,6 +30,12 @@ export default function RoomPage() {
   const [maxRounds, setMaxRounds] =
   useState(7);
 
+  const gamePlayers =
+  useGameStore(
+    (state) =>
+      state.players
+  );
+
 const playerName =
   searchParams.get("name") || "";
   const params = useParams();
@@ -320,21 +326,19 @@ useGameStore
       <div
         className="
           min-w-[22%]
-          bg-black/45
-          border
-          border-white/10
-          rounded-3xl
-          backdrop-blur-md
-          shadow-2xl
-          p-5
           h-[80vh]
           overflow-auto
           custom-scrollbar
         "
       >
         <PlayerList
-          players={players}
-        />
+  players={
+    gameStarted
+      ? gamePlayers
+      : players
+  }
+  showScore={gameStarted}
+/>
       </div>
 
       {/* RIGHT CONTENT */}

@@ -167,12 +167,8 @@ export default function GameBoard({
 )}
 
       <TableArea
-        player1Played={
-          playedCards?.[0]?.card
-        }
-        player2Played={
-          playedCards?.[1]?.card
-        }
+        playedCards={playedCards}
+        players={players}
       />
 
       <div className="space-y-8 mt-8">
