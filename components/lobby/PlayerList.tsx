@@ -13,10 +13,9 @@ export default function PlayerList({
   return (
     <div
       className="
-        bg-green-800
-        p-6
+        bg-blue-500
+        p-4
         rounded-2xl
-        mb-8
       "
     >
       <h2 className="text-2xl mb-4">
@@ -28,7 +27,7 @@ export default function PlayerList({
           <div
             key={player.id}
             className="
-              bg-green-700
+              bg-blue-700
               p-3
               rounded-xl
             "

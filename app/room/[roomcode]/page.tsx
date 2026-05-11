@@ -319,8 +319,7 @@ useGameStore
       {/* LEFT SIDEBAR */}
       <div
         className="
-          w-[22%]
-          min-w-[260px]
+          min-w-[22%]
           bg-black/45
           border
           border-white/10
@@ -329,7 +328,8 @@ useGameStore
           shadow-2xl
           p-5
           h-[80vh]
-          overflow-hidden
+          overflow-auto
+          custom-scrollbar
         "
       >
         <PlayerList
