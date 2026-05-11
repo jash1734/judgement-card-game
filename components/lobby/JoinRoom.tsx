@@ -57,7 +57,7 @@ export default function JoinRoom({
 
       <button
         disabled={
-          !playerName.trim()
+          !playerName.trim() || !roomCode.trim()
         }
         onClick={
           handleJoinRoom
@@ -66,6 +66,7 @@ export default function JoinRoom({
           bg-green-500
           hover:bg-green-600
           disabled:bg-gray-500
+          disabled:cursor-not-allowed
           text-white
           px-6
           py-3

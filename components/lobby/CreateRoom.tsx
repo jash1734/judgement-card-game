@@ -37,6 +37,7 @@ export default function CreateRoom({
         bg-blue-500
         hover:bg-blue-600
         disabled:bg-gray-500
+        disabled:cursor-not-allowed
         text-white
         px-6
         py-3
