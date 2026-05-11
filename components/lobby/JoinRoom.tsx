@@ -32,14 +32,14 @@ export default function JoinRoom({
   }
 
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 justify-center w-full">
       <input
         type="text"
         placeholder="Enter Room Code"
         value={roomCode}
         onChange={(e) =>
           setRoomCode(
-            e.target.value
+            e.target.value.toUpperCase()
           )
         }
         className="

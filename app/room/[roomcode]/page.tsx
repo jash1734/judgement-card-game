@@ -261,7 +261,7 @@ useGameStore
     className="
       absolute
       inset-0
-      bg-black/60
+      bg-black/75
       backdrop-blur-[2px]
     "
   />
