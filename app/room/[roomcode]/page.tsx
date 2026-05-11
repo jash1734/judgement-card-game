@@ -245,6 +245,7 @@ useGameStore
     text-white
   "
 >
+  {/* Background */}
   <div
     className="
       fixed
@@ -256,6 +257,7 @@ useGameStore
       -z-20
     "
   />
+
   {/* Dark Overlay */}
   <div
     className="
@@ -263,6 +265,7 @@ useGameStore
       inset-0
       bg-black/75
       backdrop-blur-[2px]
+      -z-10
     "
   />
 
@@ -275,155 +278,287 @@ useGameStore
       p-8
     "
   >
-      <h1 className="text-5xl font-bold mb-8">
-        RoomCode : <span className="font-sans">{roomCode}</span>
-      </h1>
-
-      <PlayerList players={players} />
-      {isHost && (!gameStarted || phase === "gameOver") &&(
-  <div className="mb-4">
-    <input
-      type="text"
-      min={1}
-      value={maxRounds}
-      onChange={(e) =>
-  setMaxRounds(
-    parseInt(
-      e.target.value
-    ) || 0
-  )
-}
-      placeholder="Enter rounds"
+    {/* Header */}
+    <div
       className="
-        px-4
-        py-3
-        rounded-xl
-        text-black
-        w-48
-      "
-    />
-  </div>
-)}
-      {isHost && !gameStarted &&(
-        <>
-      <button
-        onClick={() =>
-          socket.emit(
-  "start-game",
-  {
-    roomCode,
-    maxRounds,
-  }
-)
-        }
-        className="
-          bg-blue-500
-          hover:bg-blue-600
-          text-white
-          px-6
-          py-3
-          rounded-xl
-          font-bold
-          mb-8
-        "
-      >
-        Start Game
-      </button>
-      </>
-      )}
-
-      {phase === "gameOver" &&
-  isHost && (
-    <button
-      onClick={() =>
-        socket.emit(
-  "restart-game",
-  {
-    roomCode,
-    maxRounds,
-  }
-)
-      }
-      className="
-        bg-yellow-500
-        hover:bg-yellow-600
-        text-black
-        px-6
-        py-3
-        rounded-xl
-        font-bold
-        mb-6
+        flex
+        justify-between
+        items-center
+        mb-8
       "
     >
-      Restart Game
-    </button>
-)}
-
-  {gameStarted && phase !== "gameOver" &&(
-      <div
+      <h1
         className="
-          bg-black/30
-          p-4
-          rounded-xl
-          mb-6
+          text-4xl
+          text-yellow-400
+          drop-shadow-lg
         "
       >
-        <h2 className="text-2xl mb-2">
-          All Predictions
-        </h2>
-
-        <div className="space-y-2">
-  {Object.entries(
-    bids
-  ).map(
-    ([playerId, bid]) => {
-      const player =
-        players.find(
-          (player) =>
-            player.id ===
-            playerId
-        );
-
-      return (
-        <div
-          key={playerId}
+        RoomCode :
+        <span
           className="
-            bg-white/10
-            p-3
-            rounded-lg
+            font-sans
+            font-extrabold
+            text-yellow-400
+            ml-2
           "
         >
-          {player?.name}: {bid}
-        </div>
-      );
-    }
-    
-  )}
-</div>
-      </div>
-      )}
-      
-      {gameStarted ? (
-        <GameBoard
-          bids={bids}
-           myId={
-    socket.id || ""
-  }
-        />
-      ) : (
-        <div
-          className="
-            bg-green-800
-            p-6
-            rounded-2xl
-            text-2xl
-          "
-        >
-          {isHost ? "Players are waiting for you to start the game" : "Waiting for host to start the game"}
-          
-        </div>
-      )}
+          {roomCode}
+        </span>
+      </h1>
     </div>
-    </main>
+
+    {/* Main Layout */}
+    <div
+      className="
+        flex
+        gap-6
+        min-h-[80vh]
+      "
+    >
+      {/* LEFT SIDEBAR */}
+      <div
+        className="
+          w-[22%]
+          min-w-[260px]
+          bg-black/45
+          border
+          border-white/10
+          rounded-3xl
+          backdrop-blur-md
+          shadow-2xl
+          p-5
+          h-[80vh]
+          overflow-hidden
+        "
+      >
+        <PlayerList
+          players={players}
+        />
+      </div>
+
+      {/* RIGHT CONTENT */}
+      <div
+        className="
+          flex-1
+          bg-black/40
+          border
+          border-white/10
+          rounded-3xl
+          backdrop-blur-md
+          shadow-2xl
+          p-8
+          overflow-y-auto
+        "
+      >
+        {/* START CONTROLS */}
+        <div
+          className="
+            flex
+            flex-col
+            items-center
+            justify-center
+            gap-5
+            mb-8
+          "
+        >
+          {isHost &&
+            (!gameStarted ||
+              phase ===
+                "gameOver") && (
+              <div className="mb-2">
+                <label className="text-3xl">Number of Rounds : </label>
+                <input
+                  type="text"
+                  min={1}
+                  value={
+                    maxRounds
+                  }
+                  onChange={(
+                    e
+                  ) =>
+                    setMaxRounds(
+                      parseInt(
+                        e.target
+                          .value
+                      ) || 0
+                    )
+                  }
+                  placeholder="Enter rounds"
+                  className="
+                    px-5
+                    py-4
+                    rounded-2xl
+                    bg-white/90
+                    text-black
+                    text-lg
+                    outline-none
+                    w-64
+                    focus:ring-4
+                    focus:ring-yellow-400
+                  "
+                />
+              </div>
+            )}
+
+          {isHost &&
+            !gameStarted &&(
+              <>
+                <button
+                  onClick={() =>
+                    socket.emit(
+                      "start-game",
+                      {
+                        roomCode,
+                        maxRounds,
+                      }
+                    )
+                  }
+                  className="
+                    bg-yellow-500
+                    hover:bg-yellow-600
+                    text-black
+                    px-8
+                    py-4
+                    rounded-2xl
+                    font-bold
+                    text-lg
+                    shadow-lg
+                    transition
+                  "
+                >
+                  Start Game
+                </button>
+              </>
+            )}
+
+          {phase ===
+            "gameOver" &&
+            isHost && (
+              <button
+                onClick={() =>
+                  socket.emit(
+                    "restart-game",
+                    {
+                      roomCode,
+                      maxRounds,
+                    }
+                  )
+                }
+                className="
+                  bg-yellow-500
+                  hover:bg-yellow-600
+                  text-black
+                  px-8
+                  py-4
+                  rounded-2xl
+                  font-bold
+                  text-lg
+                  shadow-lg
+                  transition
+                "
+              >
+                Restart Game
+              </button>
+            )}
+
+          {!gameStarted && (
+            <div
+              className="
+                bg-black/40
+                border
+                border-white/10
+                p-6
+                rounded-3xl
+                text-2xl
+                text-center
+                shadow-xl
+                max-w-2xl
+              "
+            >
+              {isHost
+                ? "Players are waiting for you to start the game"
+                : "Waiting for host to start the game"}
+            </div>
+          )}
+        </div>
+
+        {/* PREDICTIONS */}
+        {gameStarted &&
+          phase !==
+            "gameOver" && (
+            <div
+              className="
+                bg-black/30
+                border
+                border-white/10
+                p-5
+                rounded-3xl
+                mb-6
+              "
+            >
+              <h2
+                className="
+                  text-2xl
+                  mb-4
+                  text-yellow-300
+                "
+              >
+                All Predictions
+              </h2>
+
+              <div className="space-y-2">
+                {Object.entries(
+                  bids
+                ).map(
+                  ([
+                    playerId,
+                    bid,
+                  ]) => {
+                    const player =
+                      players.find(
+                        (
+                          player
+                        ) =>
+                          player.id ===
+                          playerId
+                      );
+
+                    return (
+                      <div
+                        key={
+                          playerId
+                        }
+                        className="
+                          bg-white/10
+                          p-3
+                          rounded-2xl
+                        "
+                      >
+                        {
+                          player?.name
+                        }
+                        : {bid}
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            </div>
+          )}
+
+        {/* GAME BOARD */}
+        {gameStarted ? (
+          <GameBoard
+            bids={bids}
+            myId={
+              socket.id || ""
+            }
+          />
+        ) : null}
+      </div>
+    </div>
+  </div>
+</main>
   );
 }
