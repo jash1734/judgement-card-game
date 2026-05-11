@@ -347,7 +347,7 @@ useGameStore
           rounded-3xl
           backdrop-blur-md
           shadow-2xl
-          p-8
+          p-7
           overflow-y-auto
         "
       >
@@ -507,43 +507,75 @@ useGameStore
                 All Predictions
               </h2>
 
-              <div className="space-y-2">
-                {Object.entries(
-                  bids
-                ).map(
-                  ([
-                    playerId,
-                    bid,
-                  ]) => {
-                    const player =
-                      players.find(
-                        (
-                          player
-                        ) =>
-                          player.id ===
-                          playerId
-                      );
+              <div
+  className="
+    flex
+    flex-wrap
+    gap-3
+    max-h-40
+    overflow-y-auto
+    pr-2
+  "
+>
+  {Object.entries(
+    bids
+  ).map(
+    ([
+      playerId,
+      bid,
+    ]) => {
+      const player =
+        players.find(
+          (
+            player
+          ) =>
+            player.id ===
+            playerId
+        );
 
-                    return (
-                      <div
-                        key={
-                          playerId
-                        }
-                        className="
-                          bg-white/10
-                          p-3
-                          rounded-2xl
-                        "
-                      >
-                        {
-                          player?.name
-                        }
-                        : {bid}
-                      </div>
-                    );
-                  }
-                )}
-              </div>
+      return (
+        <div
+          key={
+            playerId
+          }
+          className="
+            bg-white/10
+            border
+            border-white/10
+            px-5
+            py-3
+            rounded-2xl
+            backdrop-blur-md
+            whitespace-nowrap
+            shadow-lg
+          "
+        >
+          <span
+            className="
+              text-white
+              font-semibold
+            "
+          >
+            {player?.name}
+          </span>
+
+          <span className="mx-2">
+            :
+          </span>
+
+          <span
+            className="
+              text-white
+              font-bold
+            "
+          >
+            {bid}
+          </span>
+        </div>
+      );
+    }
+  )}
+</div>
             </div>
           )}
 
