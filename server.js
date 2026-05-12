@@ -334,6 +334,7 @@ io.to(roomCode).emit(
     roomCode,
     card,
   }) => {
+
     if (!rooms[roomCode]) {
       return;
     }
@@ -390,25 +391,28 @@ io.to(roomCode).emit(
       return;
     }
 
+    // FOLLOW SUIT CHECK
     if (
-  gameState.leadSuit
-) {
-  const hasLeadSuit =
-    player.hand.some(
-      (c) =>
-        c.suit ===
-        gameState.leadSuit
-    );
-
-  if (
-    hasLeadSuit &&
-    card.suit !==
       gameState.leadSuit
-  ) {
-    return;
-  }
-}
+    ) {
 
+      const hasLeadSuit =
+        player.hand.some(
+          (c) =>
+            c.suit ===
+            gameState.leadSuit
+        );
+
+      if (
+        hasLeadSuit &&
+        card.suit !==
+          gameState.leadSuit
+      ) {
+        return;
+      }
+    }
+
+    // REMOVE CARD FROM HAND
     player.hand =
       player.hand.filter(
         (c) =>
@@ -420,6 +424,7 @@ io.to(roomCode).emit(
           )
       );
 
+    // ADD TO TABLE
     gameState.playedCards.push({
       playerId:
         socket.id,
@@ -427,6 +432,7 @@ io.to(roomCode).emit(
       card,
     });
 
+    // FIRST CARD = LEAD SUIT
     if (
       gameState.playedCards
         .length === 1
@@ -435,17 +441,19 @@ io.to(roomCode).emit(
         card.suit;
     }
 
+    // ALL PLAYERS PLAYED
     if (
       gameState.playedCards
         .length ===
       gameState.players.length
     ) {
+
       const winnerId =
         determineTrickWinner(
-  gameState.playedCards,
-  gameState.leadSuit,
-  gameState.trumpSuit
-)
+          gameState.playedCards,
+          gameState.leadSuit,
+          gameState.trumpSuit
+        );
 
       const winnerIndex =
         gameState.players.findIndex(
@@ -457,6 +465,7 @@ io.to(roomCode).emit(
       gameState.players =
         gameState.players.map(
           (player) => {
+
             if (
               player.id !==
               winnerId
@@ -474,155 +483,168 @@ io.to(roomCode).emit(
           }
         );
 
-      gameState.currentPlayerIndex =
-        winnerIndex;
+      // SHOW WINNER TEMPORARILY
+      gameState.winner =
+        winnerId;
 
-      gameState.playedCards =
-        [];
+      io.to(roomCode).emit(
+        "game-state-updated",
+        gameState
+      );
 
-      gameState.leadSuit =
-        null;
+      // DELAY BEFORE CLEARING TABLE
+      setTimeout(() => {
 
-      const roundFinished =
-        gameState.players.every(
-          (player) =>
-            player.hand
-              .length === 0
+        gameState.currentPlayerIndex =
+          winnerIndex;
+
+        gameState.playedCards =
+          [];
+
+        gameState.leadSuit =
+          null;
+
+        gameState.winner =
+          null;
+
+        const roundFinished =
+          gameState.players.every(
+            (player) =>
+              player.hand
+                .length === 0
+          );
+
+        // ROUND OVER
+        if (roundFinished) {
+
+          gameState.players =
+            gameState.players.map(
+              (player) => ({
+                ...player,
+
+                score:
+                  calculateScore(
+                    player
+                  ),
+
+                tricksWon: 0,
+
+                bid: undefined,
+              })
+            );
+
+          // GAME OVER
+          if (
+            gameState.currentRound >=
+            gameState.maxRounds
+          ) {
+
+            let winner =
+              gameState.players[0];
+
+            for (const player of gameState.players) {
+
+              if (
+                player.score >
+                winner.score
+              ) {
+                winner =
+                  player;
+              }
+            }
+
+            gameState.phase =
+              "gameOver";
+
+            gameState.winner =
+              winner.name;
+
+            io.to(roomCode).emit(
+              "game-state-updated",
+              gameState
+            );
+
+            return;
+          }
+
+          // NEXT ROUND
+          gameState.currentRound +=
+            1;
+
+          gameState.trumpSuit =
+            getTrumpSuit(
+              gameState.currentRound
+            );
+
+          const totalCardsNeeded =
+            gameState.maxRounds *
+            gameState.players.length;
+
+          const deckCount =
+            Math.ceil(
+              totalCardsNeeded / 52
+            );
+
+          const deck =
+            createDeck(
+              deckCount
+            );
+
+          gameState.players =
+            gameState.players.map(
+              (
+                player,
+                index
+              ) => ({
+                ...player,
+
+                hand: deck.slice(
+                  index *
+                    gameState.currentRound,
+
+                  (index + 1) *
+                    gameState.currentRound
+                ),
+              })
+            );
+
+          gameState.bids = {};
+
+          gameState.bidsPlaced =
+            0;
+
+          gameState.phase =
+            "bidding";
+
+          gameState.startingBidderIndex =
+            (
+              gameState.startingBidderIndex +
+              1
+            ) %
+            gameState.players.length;
+
+          gameState.currentBidderIndex =
+            gameState.startingBidderIndex;
+        }
+
+        io.to(roomCode).emit(
+          "game-state-updated",
+          gameState
         );
 
-      if (roundFinished) {
+      }, 1500);
 
-  gameState.players =
-    gameState.players.map(
-      (player) => ({
-        ...player,
-
-        score:
-          calculateScore(
-            player
-          ),
-
-        tricksWon: 0,
-
-        bid: undefined,
-      })
-    );
-
-  // GAME OVER
-  if (
-    gameState.currentRound >=
-    gameState.maxRounds
-  ) {
-    let winner =
-      gameState.players[0];
-
-    for (const player of gameState.players) {
-      if (
-        player.score >
-        winner.score
-      ) {
-        winner = player;
-      }
+      return;
     }
 
-    gameState.phase =
-      "gameOver";
-
-    gameState.winner =
-      winner.name;
-
-    io.to(roomCode).emit(
-      "game-state-updated",
-      gameState
-    );
-
-    return;
-  }
-
-  // NEXT ROUND
-  gameState.currentRound += 1;
-
-  gameState.trumpSuit =
-    getTrumpSuit(
-      gameState.currentRound
-    );
-
-  gameState.startingBidderIndex =
-    (
-      gameState
-        .startingBidderIndex +
-      1
-    ) %
-    gameState.players.length;
-
-  const totalCardsNeeded =
-    gameState.maxRounds *
-    gameState.players.length;
-
-  const deckCount =
-    Math.ceil(
-      totalCardsNeeded / 52
-    );
-
-  const deck =
-    createDeck(deckCount);
-
-  // clear old hands
-  gameState.players.forEach(
-    (player) => {
-      player.hand = [];
-    }
-  );
-
-  // redeal
-  for (
-    let i = 0;
-    i <
-    gameState.currentRound;
-    i++
-  ) {
-    gameState.players.forEach(
-      (player) => {
-        const card =
-          deck.pop();
-
-        if (card) {
-          player.hand.push(
-            card
-          );
-        }
-      }
-    );
-  }
-
-  gameState.bids = {};
-
-  gameState.bidsPlaced = 0;
-
-  gameState.phase =
-    "bidding";
-
-  gameState.currentBidderIndex =
-    gameState
-      .startingBidderIndex;
-
-  gameState.playedCards =
-    [];
-
-  gameState.leadSuit =
-    null;
-}
-    }
-
-    else {
-      gameState.currentPlayerIndex =
-        (
-          gameState
-            .currentPlayerIndex +
-          1
-        ) %
-        gameState.players.length;
-    }
+    // NORMAL TURN FLOW
+    gameState.currentPlayerIndex =
+      (
+        gameState
+          .currentPlayerIndex +
+        1
+      ) %
+      gameState.players.length;
 
     io.to(roomCode).emit(
       "game-state-updated",
