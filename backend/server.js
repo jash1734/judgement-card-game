@@ -44,9 +44,17 @@ const {
 const { rooms } =
   require("./server/rooms");
 
-const io = new Server(3001, {
+const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: [
+      "http://localhost:3000",
+      "https://judgement-card-game.vercel.app",
+    ],
+
+    methods: [
+      "GET",
+      "POST",
+    ],
   },
 });
 
