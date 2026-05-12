@@ -1,15 +1,22 @@
-const PORT =
-  process.env.PORT || 3001;
+const express =
+  require("express");
 
-server.listen(
-  PORT,
-  "0.0.0.0",
-  () => {
-    console.log(
-      `Server running on ${PORT}`
-    );
-  }
-);
+const http =
+  require("http");
+
+const { Server } =
+  require("socket.io");
+
+const cors =
+  require("cors");
+
+const app = express();
+
+app.use(cors());
+
+const server =
+  http.createServer(app);
+
 const {
   getTrumpSuit,
 } = require(
@@ -33,9 +40,6 @@ const {
 } = require(
   "./server/trick"
 );
-
-const { Server } =
-  require("socket.io");
 
 const { rooms } =
   require("./server/rooms");
@@ -751,3 +755,15 @@ io.to(roomCode).emit(
   }
 });
 });
+const PORT =
+  process.env.PORT || 3001;
+
+server.listen(
+  PORT,
+  "0.0.0.0",
+  () => {
+    console.log(
+      `Server running on ${PORT}`
+    );
+  }
+);
