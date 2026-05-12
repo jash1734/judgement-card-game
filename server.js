@@ -678,6 +678,64 @@ io.to(roomCode).emit(
             .hostId,
       }
     );
+
+    socket.on(
+  "leave-room",
+  (roomCode) => {
+
+    if (!rooms[roomCode]) {
+      return;
+    }
+
+    rooms[roomCode].players =
+      rooms[
+        roomCode
+      ].players.filter(
+        (player) =>
+          player.id !==
+          socket.id
+      );
+
+    // DELETE ROOM IF EMPTY
+    if (
+      rooms[roomCode]
+        .players.length === 0
+    ) {
+      delete rooms[
+        roomCode
+      ];
+
+      return;
+    }
+
+    // NEW HOST IF HOST LEFT
+    if (
+      rooms[roomCode]
+        .hostId === socket.id
+    ) {
+      rooms[roomCode].hostId =
+        rooms[
+          roomCode
+        ].players[0].id;
+    }
+
+    io.to(roomCode).emit(
+      "player-joined",
+      {
+        players:
+          rooms[roomCode]
+            .players,
+
+        hostId:
+          rooms[roomCode]
+            .hostId,
+      }
+    );
+
+    socket.leave(roomCode);
+
+  }
+);
   }
 });
 });

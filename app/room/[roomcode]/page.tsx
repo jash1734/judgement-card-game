@@ -73,9 +73,7 @@ const playerName =
         state.initializeGame
     );
   
-  const isHost =
-  connected &&
-  socket.id === hostId;
+  const isHost = socket.id === hostId;
 
   const phase =
   useGameStore(
@@ -88,6 +86,7 @@ const playerName =
   const [joinMessage, setJoinMessage] = useState("");
 
   useEffect(() => {
+    
     if (!roomCode) {
       return;
     }
@@ -249,29 +248,39 @@ useGameStore
   }
 );
 
-    return () => {
-      socket.off(
-        "player-joined"
-      );
-
-      socket.off(
-        "game-started"
-      );
-
-      socket.off(
-        "bids-updated"
-      );
-
-      socket.off(
-  "game-state-updated"
+   return () => {
+    socket.emit(
+  "leave-room",
+  roomCode
 );
 
   socket.off(
-  "connect",
-  handleConnect
-);
+    "player-joined",
+    handlePlayers
+  );
 
-    };
+  socket.off(
+    "game-started"
+  );
+
+  socket.off(
+    "bids-updated"
+  );
+
+  socket.off(
+    "game-state-updated"
+  );
+
+  socket.off(
+    "connect",
+    handleConnect
+  );
+
+  useGameStore
+    .getState()
+    .resetGame();
+
+};
   }, [
     roomCode,
     initializeGame,

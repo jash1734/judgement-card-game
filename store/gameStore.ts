@@ -84,7 +84,11 @@ setCurrentPlayerIndex: (
 setLeadSuit: (
   suit?: Suit
 ) => void;
+
+resetGame: () => void;
+
 };
+
 
 export const useGameStore =
   create<GameState>((set, get) => ({
@@ -147,6 +151,31 @@ setCurrentPlayerIndex: (
 setLeadSuit: (suit) =>
   set({
     leadSuit: suit,
+  }),
+
+  resetGame: () =>
+  set({
+    players: [],
+
+    currentRound: 1,
+
+    maxRounds: 7,
+
+    trumpSuit: "spades",
+
+    phase: "waiting",
+
+    currentPlayerIndex: 0,
+
+    currentBidderIndex: 0,
+
+    playedCards: [],
+
+    leadSuit: undefined,
+
+    winner: undefined,
+
+    bidsPlaced: 0,
   }),
 
     setCurrentBidderIndex: (
