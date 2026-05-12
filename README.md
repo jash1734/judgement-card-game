@@ -1,159 +1,355 @@
-# Judgement Multiplayer Card Game
+Judgement Multiplayer Card Game
+A real-time multiplayer trick-taking card game inspired by Judgement/Kachuful, built with modern full-stack web technologies. Players can create private rooms, join friends, predict tricks, play strategically with trump mechanics, and compete in synchronized multiplayer matches online.
 
-A real-time multiplayer trick-taking card game built with modern web technologies. Players can create rooms, join with friends, predict number of hands they will win, play cards strategically, and compete across multiple rounds with synchronized gameplay.
+Live Demo
+Frontend:
+https://judgement-card-game.vercel.app
+Backend:
+https://judgement-card-game-7r72.onrender.com
 
----
+Features
+Real-Time Multiplayer
 
-## Features
 
-### Multiplayer Gameplay
+Real-time gameplay using Socket.IO
 
-* Real-time multiplayer using Socket.IO
-* Room creation and joining system
-* Host-controlled game start and restart
-* Live synchronized gameplay across all connected players
 
-### Game Mechanics
+Create and join private rooms
 
-* Rotating prediction order every round
-* Rotating trump suit system
-* Follow-suit enforcement
-* Trump priority logic
-* Trick winner calculation
-* Multi-round gameplay
-* Dynamic deck generation for large games
-* Multiple deck support when required
-* Score calculation system
-* Restartable matches
 
-### Fair Gameplay Rules
+Host-controlled lobby system
 
-* Server-authoritative game state
-* Turn validation
-* Card ownership validation
-* Secure prediction validation
-* Follow-suit validation on server
-* Anti-cheat gameplay synchronization
 
-### UI Features
+Online multiplayer synchronization
 
-* Responsive card table layout
-* Hidden opponent cards
-* Animated card interactions using Framer Motion
-* Shared predictions and score tracking
-* Turn-based interaction system
 
----
+Live room updates
 
-# Tech Stack
 
-## Frontend
+Shared game state across all players
 
-* Next.js
-* React
-* TypeScript
-* Tailwind CSS
-* Framer Motion
-* Zustand
 
-## Backend
+Automatic host reassignment
 
-* Node.js
-* Express
-* Socket.IO
 
----
+Restartable matches
 
-# Gameplay Rules
 
-* Players predict how many hands they will win each round.
-* Prediction order rotates every round for fairness.
-* Trump suit rotates between:
 
-  * Spades
-  * Diamonds
-  * Clubs
-  * Hearts
-* Players must follow suit if possible.
-* Trump cards beat all non-trump cards.
-* If no trump is played, highest lead suit card wins.
-* Multiple decks are automatically added when required based on:
+Core Gameplay Mechanics
 
-```txt
-number of rounds × players > 52
-```
 
-* Duplicate cards are supported in multi-deck games.
-* If equal cards are played, the later played card wins.
+Trick-taking gameplay
 
----
 
-# Project Structure
+Rotating prediction order
 
-```txt
-judgement/
-│
-├── app/
-├── components/
-├── server/
-├── socket/
-├── store/
-├── types/
-├── utils/
-├── public/
-│
-├── server.js
-├── package.json
-├── tailwind.config.ts
-├── tsconfig.json
-└── README.md
-```
 
----
+Rotating trump suit system
 
-# Installation
 
-## Clone Repository
+Follow-suit enforcement
 
-```bash
+
+Trump suit priority logic
+
+
+Trick winner calculation
+
+
+Dynamic round progression
+
+
+Multi-round gameplay support
+
+
+Dynamic deck generation
+
+
+Multiple deck support for large matches
+
+
+Complete score calculation system
+
+
+
+Fair & Secure Gameplay
+
+
+Server-authoritative game state
+
+
+Turn validation
+
+
+Card ownership validation
+
+
+Prediction validation
+
+
+Follow-suit validation
+
+
+Anti-cheat synchronization
+
+
+Controlled multiplayer event flow
+
+
+
+Modern UI / UX Features
+
+
+Custom themed card-game interface
+
+
+Animated gameplay interactions
+
+
+Responsive multiplayer layout
+
+
+Mobile landscape support
+
+
+Rotate-device overlay for mobile
+
+
+Trick winner overlay notifications
+
+
+Player join notifications
+
+
+Multiplayer sound effects
+
+
+Scrollable prediction system
+
+
+Dynamic game table layout
+
+
+Live score tracking
+
+
+Clean room lobby interface
+
+
+Styled card table background
+
+
+Responsive player areas
+
+
+
+Tech Stack
+Frontend
+
+
+Next.js
+
+
+React
+
+
+TypeScript
+
+
+Tailwind CSS
+
+
+Zustand
+
+
+Framer Motion
+
+
+Socket.IO Client
+
+
+
+Backend
+
+
+Node.js
+
+
+Express
+
+
+Socket.IO
+
+
+
+Gameplay Rules
+
+
+Players predict how many tricks they will win every round.
+
+
+Prediction order rotates each round for fairness.
+
+
+Trump suit rotates between:
+
+
+Spades
+
+
+Diamonds
+
+
+Clubs
+
+
+Hearts
+
+
+
+
+
+Card Rules
+
+
+Players must follow lead suit if possible.
+
+
+If a player does not have the lead suit, they may play any card.
+
+
+Trump cards beat all non-trump cards.
+
+
+If no trump card is played, the highest card of the lead suit wins.
+
+
+Duplicate cards are supported in multi-deck matches.
+
+
+If identical cards are played, the later played card wins.
+
+
+
+Dynamic Deck System
+Additional decks are automatically added when needed:
+rounds × players > 52
+This allows scalable multiplayer matches with many rounds and players.
+
+Project Structure
+judgement-card-game/│├── app/├── components/├── public/├── socket/├── store/├── types/├── utils/│├── backend/│   ├── server/│   ├── server.js│   ├── package.json│├── package.json├── tsconfig.json├── README.md
+
+Installation
+Clone Repository
 git clone YOUR_REPOSITORY_URL
-```
 
-## Install Dependencies
-
-```bash
+Frontend Setup
+Install Frontend Dependencies
 npm install
-```
-
-## Run Frontend
-
-```bash
+Start Frontend
 npm run dev
-```
+Frontend runs on:
+http://localhost:3000
 
-## Run Socket Server
+Backend Setup
+Move Into Backend Folder
+cd backend
+Install Backend Dependencies
+npm install
+Start Backend Server
+node server.js
+Backend runs on:
+http://localhost:3001
 
-```bash
-npm run socket
-```
+Environment Variables
+Create:
+.env.local
+Add:
+NEXT_PUBLIC_SOCKET_URL=http://localhost:3001
+For production:
+NEXT_PUBLIC_SOCKET_URL=https://your-backend-url.onrender.com
 
----
+Deployment
+Frontend
+Deployed on Vercel.
+Backend
+Deployed on Render.
 
-# Learning Outcomes
+Learning Outcomes
+This project strengthened concepts including:
 
-This project helped strengthen concepts including:
 
-* Real-time multiplayer architecture
-* WebSocket communication
-* Server-authoritative game logic
-* State synchronization
-* Game engine logic
-* Scalable room management
-* Frontend/backend integration
-* Advanced React state management
+Real-time multiplayer architecture
 
----
 
-# Author
+WebSocket communication
 
+
+Server-authoritative game logic
+
+
+Multiplayer synchronization
+
+
+Game engine logic
+
+
+Room lifecycle management
+
+
+Frontend/backend separation
+
+
+Production deployment
+
+
+Environment variable management
+
+
+Responsive multiplayer UI
+
+
+State management using Zustand
+
+
+Full-stack application architecture
+
+
+
+Future Improvements
+
+
+Reconnect handling
+
+
+Persistent rooms
+
+
+Friend invites
+
+
+Spectator mode
+
+
+Leaderboards
+
+
+Match history
+
+
+AI bot players
+
+
+More advanced animations
+
+
+Player profiles & avatars
+
+
+In-game chat
+
+
+
+Author
 Built by Jash Deshani.
