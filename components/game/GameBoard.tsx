@@ -11,6 +11,7 @@ from "@/store/gameStore";
 
 import { socket }
 from "@/socket/client";
+import { useEffect } from "react";
 
 type Props = {
   bids: Record<
@@ -52,6 +53,23 @@ export default function GameBoard({
   players[
     currentBidderIndex
   ]?.id === myId;
+  
+  useEffect(() => {
+  if (
+    playedCards.length > 0
+  ) {
+    const audio =
+      new Audio(
+        "/sounds/throwcard.mp3"
+      );
+
+    audio.volume = 0.4;
+
+    audio.play().catch(
+      console.log
+    );
+  }
+}, [playedCards.length]);
 
   return (
     <div>
