@@ -128,7 +128,8 @@ export default function Home() {
 
         <input
           type="text"
-          placeholder="Your name"
+          placeholder="Your name (max 10 chars)"
+          maxLength={10}
           value={playerName}
           onChange={(e) =>
             setPlayerName(
