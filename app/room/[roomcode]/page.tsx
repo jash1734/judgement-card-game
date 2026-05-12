@@ -20,6 +20,8 @@ from "@/components/lobby/PlayerList";
 import { socket }
 from "@/socket/client";
 
+import { Eye, EyeOff } from "lucide-react";
+
 export default function RoomPage() {
   const [connected, setConnected] =
   useState(false);
@@ -80,6 +82,8 @@ const playerName =
     (state) =>
       state.phase
   );
+
+  const [showRoomcode, setShowRoomcode] = useState(false);
 
   useEffect(() => {
     if (!roomCode) {
@@ -288,7 +292,7 @@ useGameStore
     <div
       className="
         flex
-        justify-between
+        
         items-center
         mb-8
       "
@@ -309,9 +313,15 @@ useGameStore
             ml-2
           "
         >
-          {roomCode}
+          {showRoomcode ? roomCode : "* * * * * *"}
         </span>
       </h1>
+      <button
+        type="button"
+        onClick={() => setShowRoomcode(!showRoomcode)}
+        className="text-white-400 ml-8 bg-yellow-400 p-2 border-none rounded-lg">
+        {showRoomcode ? <EyeOff size={20} /> : <Eye size={20} />}
+      </button>
     </div>
 
     {/* Main Layout */}
