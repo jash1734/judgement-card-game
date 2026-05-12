@@ -85,6 +85,8 @@ const playerName =
 
   const [showRoomcode, setShowRoomcode] = useState(false);
 
+  const [joinMessage, setJoinMessage] = useState("");
+
   useEffect(() => {
     if (!roomCode) {
       return;
@@ -116,6 +118,35 @@ const playerName =
     hostId: string;
   }
 ) {
+
+  if (
+    data.players.length >
+    players.length
+  ) {
+    const joinedPlayer =
+      data.players[
+        data.players.length -
+          1
+      ];
+
+    setJoinMessage(
+      `${joinedPlayer.name} joined the game!`
+    );
+
+    const audio =
+      new Audio(
+        "/sounds/playerjoin.mp3"
+      );
+
+    audio.volume = 0.5;
+
+    audio.play();
+
+    setTimeout(() => {
+      setJoinMessage("");
+    }, 2000);
+  }
+
   setPlayers(
     data.players
   );
@@ -278,6 +309,22 @@ useGameStore
       -z-10
     "
   />
+  {joinMessage && (
+  <div
+    className="
+      fixed
+      top-6
+      left-1/2
+      -translate-x-1/2
+      z-[9999]
+      text-green-600
+      text-xl
+      font-semibold
+    "
+  >
+    {joinMessage}
+  </div>
+)}
 
   {/* Content */}
   <div
