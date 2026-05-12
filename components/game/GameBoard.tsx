@@ -11,7 +11,7 @@ from "@/store/gameStore";
 
 import { socket }
 from "@/socket/client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   bids: Record<
@@ -25,6 +25,11 @@ export default function GameBoard({
   bids,
   myId,
 }: Props) {
+    const [
+  winnerMessage,
+  setWinnerMessage,
+] = useState("");
+
   const {
     players,
 
@@ -71,8 +76,54 @@ export default function GameBoard({
   }
 }, [playedCards.length]);
 
+useEffect(() => {
+
+  if (!winner) {
+    return;
+  }
+
+  const winnerPlayer =
+    players.find(
+      (player) =>
+        player.id === winner
+    );
+
+  if (!winnerPlayer) {
+    return;
+  }
+
+  setWinnerMessage(
+    `${winnerPlayer.name} won the trick!`
+  );
+
+  setTimeout(() => {
+
+    setWinnerMessage("");
+
+  }, 1500);
+
+}, [winner]);
+
   return (
     <div>
+      {winnerMessage && (
+  <div
+    className="
+  fixed
+  top-1/2
+  left-1/2
+  -translate-x-1/2
+  -translate-y-1/2
+  z-[9999]
+
+  text-green-600
+  text-xl
+  font-semibold
+"
+  >
+    {winnerMessage}
+  </div>
+)}
       <div className="flex justify-center gap-6 mb-8">
         <div className="bg-green-800 px-6 py-3 rounded-xl text-white">
           Round : {currentRound}
